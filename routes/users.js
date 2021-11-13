@@ -10,7 +10,7 @@ const Userdetails = require('../models/userdetails');
 router.get('/login', function(req, res) {
   res.render("users/login");
 });
-router.get('/changepassword', function(req, res) {
+router.get('/changepassword',authenticate, function(req, res) {
   res.render("users/changepassword");
 });
 router.get('/register', function(req, res) {
@@ -79,16 +79,12 @@ router.get('/shortner',authenticate,(req,res)=>{
  // console.log(req.currUser);// this data forward so that we can use it further in other routes.
   res.render("shortner"); 
 })
-router.get('/home',(req,res)=>{
-  //console.log("Hello my Home");
-  res.render("home");
-})
-
 router.get('/logout',(req,res)=>{
   res.clearCookie('jwtoken',{path :'/'});
  // console.log("Hello my Logout");
   res.render('home');
 })
+
 
 
 router.post('/changepassword',authenticate,async(req,res)=>{
@@ -112,6 +108,17 @@ router.post('/changepassword',authenticate,async(req,res)=>{
       console.log(err);
       return res.send("Enter Details Correctly"); 
   }
+})
+
+router.get('/home',authenticate,(req,res)=>{
+  const currUser = res.locals.currUser;
+  res.render("home",{currUser});
+})
+
+router.get('/dashboard',authenticate,  async(req,res) =>{
+
+  const data= await Userdetails.findOne({author : res.locals.currUser._id}).populate("Links").populate("DeadLinks");
+  res.render("dashboard",{data});
 })
 
 module.exports = router;

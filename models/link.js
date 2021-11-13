@@ -3,7 +3,7 @@ const { update } = require('./user');
 const Schema = mongoose.Schema;
 const userSchema = new Schema ({
     
-    _id: {
+    short_url: {
         type: String,
         required: true
     },

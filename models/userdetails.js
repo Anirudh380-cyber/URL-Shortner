@@ -8,11 +8,18 @@ const userSchema = new Schema ({
   type: Schema.Types.ObjectId,
   ref: "User",
   },
-    Links :[
-        {
-               type: Schema.Types.ObjectId,
-               ref: "Link",
-        }
+  Links:[
+          {
+            type: Schema.Types.ObjectId,
+            ref: "Link",
+          }
+    ]
+    ,
+    DeadLinks:[
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Link",
+      }
     ]
 })
 module.exports = mongoose.model('Userdetails',userSchema);
